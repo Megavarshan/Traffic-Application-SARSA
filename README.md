@@ -1,44 +1,37 @@
-# Traffic-Application-SARSA
+# Portfolio RL Agent: FastAPI + React
 
-A Professional Reinforcement Learning dashboard demonstrating Traffic Signal Control using the **SARSA** algorithm, built with Streamlit.
+A professional, full-stack Reinforcement Learning dashboard demonstrating Traffic Signal Control using the **SARSA** algorithm. This project has been split into a Python API backend and a glowing, cyberpunk-themed React frontend.
 
-## Features
-- **📚 RL Theory**: Clear mathematical breakdown of the MDP and SARSA algorithm.
-- **🧠 Training Dashboard**: High-speed RL training loop with live matplotlib curves tracking Cumulative Reward and Traffic Throughput.
-- **🚗 Live Visual Simulation**: Watch the trained agent control a simulated intersection in real-time, completely rendered in Streamlit using HTML and Emojis!
+## Architecture
+
+1. **/backend**: A **FastAPI** Python server that runs the tabular SARSA logic, maintains the environment state, and serves API endpoints for training and simulation.
+2. **/frontend**: A **Vite + React (TypeScript)** application that provides a beautiful, animated 2D intersection using CSS glassmorphism and robot emojis. Ready for 1-click deployment on Vercel.
 
 ## Running Locally
 
-1. Install requirements:
-   ```bash
-   pip install -r requirements.txt
-   ```
-2. Run the Streamlit app:
-   ```bash
-   streamlit run streamlit_app.py
-   ```
+You will need two terminal windows.
 
-## RL Formulation
+**Terminal 1: Start the Python Backend**
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
+```
 
-### State Space
-The intersection has two directions: North-South (NS) and East-West (EW). We track the number of cars waiting in each direction. To keep the state space tabular and manageable, we discretize the queue length into 3 bins: 
-- `0` (Low: 0-3 cars)
-- `1` (Medium: 4-7 cars)
-- `2` (High: 8+ cars)
+**Terminal 2: Start the React Frontend**
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-Thus, a state is a tuple `(queue_NS, queue_EW)`. There are $3 \times 3 = 9$ possible states.
+Open `http://localhost:5173` in your browser. 
 
-### Action Space
-The traffic light can be green for NS or EW.
-- `Action 0`: Green for NS (Red for EW)
-- `Action 1`: Green for EW (Red for NS)
+## RL Formulation (Tabular SARSA)
 
-### Reward Function
-The goal is to minimize the total wait time. We define the reward as the negative sum of the queues at the intersection: 
-`Reward = -(queue_NS + queue_EW)`
+- **State Space**: The intersection has two directions: North-South (NS) and East-West (EW). We track the queue length, discretized into 3 bins (Low, Medium, High).
+- **Action Space**: Green for NS (Action 0) or Green for EW (Action 1).
+- **Reward Function**: `Reward = -(queue_NS + queue_EW)` (Minimize total wait time).
 
-### Why SARSA (On-Policy)?
-SARSA (State-Action-Reward-State-Action) is an **on-policy** learning algorithm. It updates its Q-values based on the action the agent *actually* takes, meaning it learns the value of the policy it is currently executing (including the exploration steps). This is often safer than Q-learning (off-policy) during training because it takes into account the penalties incurred by exploration. 
-
-### Limitations of this Tabular Approach
-This approach uses a "tabular" Q-table to store the value of every state-action pair. While this works perfectly for our small $3 \times 3$ grid of discretized states, it **does not scale** to large or continuous state spaces. In a real-world traffic network with dozens of continuous sensors, the state space would explode (the "curse of dimensionality"), requiring Deep Reinforcement Learning (like DQN or PPO) where a neural network approximates the Q-values instead of a lookup table.
+### Why Python + React?
+This architecture mimics industry standards: Heavy math and RL agents run in a dedicated Python environment, while the user interface runs in a highly optimized, Vercel-deployable React frontend.
