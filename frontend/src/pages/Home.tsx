@@ -70,7 +70,9 @@ export default function Home() {
           <hr className="divider" />
 
           <div className="dev-strip">
-            <div className="dev-avatar">MA</div>
+            <div className="dev-avatar">
+              <img src="/profile.jpg" alt="Megavarshan" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+            </div>
             <div className="dev-info">
               <h3>Megavarshan A</h3>
               <span>Lead Developer & Researcher | AI Undergrad @ SRMIST</span>
