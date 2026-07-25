@@ -170,11 +170,14 @@ body {
   animation: fireLaser 1.5s ease-out forwards;
 }
 
-.angle-1 { transform: rotate(110deg); }
-.angle-2 { transform: rotate(120deg); width: 25px; } /* Main beam */
-.angle-3 { transform: rotate(130deg); }
-.angle-4 { transform: rotate(100deg); width: 8px; }
-.angle-5 { transform: rotate(140deg); width: 8px; }
+.angle-1 { transform: rotate(0deg); width: 8px; }
+.angle-2 { transform: rotate(-30deg); width: 12px; }
+.angle-3 { transform: rotate(-60deg); width: 15px; }
+.angle-4 { transform: rotate(-90deg); width: 35px; } /* Main massive beam */
+.angle-5 { transform: rotate(-120deg); width: 15px; }
+.angle-6 { transform: rotate(-150deg); width: 12px; }
+.angle-7 { transform: rotate(-180deg); width: 8px; }
+.angle-8 { transform: rotate(-75deg); width: 25px; } /* Secondary large beam */
 
 @keyframes fireLaser {
   0% { height: 0; opacity: 1; }

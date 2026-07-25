@@ -43,11 +43,14 @@ export default function Home() {
           {/* Multi-Laser Burst */}
           {isFiring && (
             <div className="laser-burst">
-              <div className="laser-beam right-laser angle-1"></div>
-              <div className="laser-beam right-laser angle-2"></div>
-              <div className="laser-beam right-laser angle-3"></div>
-              <div className="laser-beam right-laser angle-4"></div>
-              <div className="laser-beam right-laser angle-5"></div>
+              <div className="laser-beam angle-1"></div>
+              <div className="laser-beam angle-2"></div>
+              <div className="laser-beam angle-3"></div>
+              <div className="laser-beam angle-4"></div>
+              <div className="laser-beam angle-5"></div>
+              <div className="laser-beam angle-6"></div>
+              <div className="laser-beam angle-7"></div>
+              <div className="laser-beam angle-8"></div>
             </div>
           )}
         </div>
