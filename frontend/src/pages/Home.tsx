@@ -19,7 +19,7 @@ export default function Home() {
     setTimeout(() => {
       setIsFiring(false);
       navigate(path);
-    }, 3000); // 3000ms explosive transition
+    }, 1500); // 1.5s explosive transition
   };
 
   return (

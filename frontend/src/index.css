@@ -143,7 +143,7 @@ body {
   opacity: 0;
   z-index: 9999;
   pointer-events: none;
-  animation: cloudyExplosion 3s ease-in forwards;
+  animation: cloudyExplosion 1.5s ease-in forwards;
 }
 @keyframes cloudyExplosion {
   0% { opacity: 0; filter: brightness(1) blur(0px); }
@@ -154,8 +154,8 @@ body {
 /* Lasers */
 .laser-burst {
   position: absolute;
-  top: 45%;
-  left: 25%;
+  top: 35%;
+  left: 78%;
   width: 1px; height: 1px;
 }
 .laser-beam {
@@ -167,14 +167,14 @@ body {
   border-radius: 10px;
   transform-origin: top center;
   z-index: 100;
-  animation: fireLaser 2.5s ease-out forwards;
+  animation: fireLaser 1.5s ease-out forwards;
 }
 
-.angle-1 { transform: rotate(50deg); }
-.angle-2 { transform: rotate(60deg); width: 25px; } /* Main beam */
-.angle-3 { transform: rotate(70deg); }
-.angle-4 { transform: rotate(40deg); width: 8px; }
-.angle-5 { transform: rotate(80deg); width: 8px; }
+.angle-1 { transform: rotate(110deg); }
+.angle-2 { transform: rotate(120deg); width: 25px; } /* Main beam */
+.angle-3 { transform: rotate(130deg); }
+.angle-4 { transform: rotate(100deg); width: 8px; }
+.angle-5 { transform: rotate(140deg); width: 8px; }
 
 @keyframes fireLaser {
   0% { height: 0; opacity: 1; }
