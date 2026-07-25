@@ -19,11 +19,14 @@ export default function Home() {
     setTimeout(() => {
       setIsFiring(false);
       navigate(path);
-    }, 800); // 800ms laser animation delay
+    }, 3000); // 3000ms explosive transition
   };
 
   return (
     <div className="page-container">
+      {/* Full-screen cloudy light flash */}
+      {isFiring && <div className="cloudy-flash"></div>}
+
       <div className="landing-layout">
         
         {/* LEFT: Cutout Robot with Laser Effects */}
@@ -37,9 +40,15 @@ export default function Home() {
           {/* Iron Man Glow Follows Mouse */}
           <div className="iron-man-glow" style={{ left: `${mousePos.x}%`, top: `${mousePos.y}%` }}></div>
           
-          {/* Laser that fires on button click */}
+          {/* Multi-Laser Burst */}
           {isFiring && (
-            <div className="laser-beam right-laser"></div>
+            <div className="laser-burst">
+              <div className="laser-beam right-laser angle-1"></div>
+              <div className="laser-beam right-laser angle-2"></div>
+              <div className="laser-beam right-laser angle-3"></div>
+              <div className="laser-beam right-laser angle-4"></div>
+              <div className="laser-beam right-laser angle-5"></div>
+            </div>
           )}
         </div>
 
