@@ -47,6 +47,7 @@ export default function Train() {
           <h2>Hyperparameters</h2>
           <div className="param-group">
             <label>Episodes: {params.episodes}</label>
+            <p className="param-desc">Total number of training cycles the agent will complete.</p>
             <input 
               type="range" min="100" max="2000" step="100" 
               value={params.episodes} 
@@ -55,6 +56,7 @@ export default function Train() {
           </div>
           <div className="param-group">
             <label>Learning Rate (α): {params.alpha.toFixed(2)}</label>
+            <p className="param-desc">How quickly the agent overrides old knowledge with new information. (1.0 = immediate override)</p>
             <input 
               type="range" min="0.01" max="1.0" step="0.01" 
               value={params.alpha} 
@@ -63,6 +65,7 @@ export default function Train() {
           </div>
           <div className="param-group">
             <label>Discount Factor (γ): {params.gamma.toFixed(2)}</label>
+            <p className="param-desc">Determines how much the agent cares about long-term future rewards vs immediate payoff.</p>
             <input 
               type="range" min="0.1" max="1.0" step="0.1" 
               value={params.gamma} 
@@ -71,6 +74,7 @@ export default function Train() {
           </div>
           <div className="param-group">
             <label>Initial Exploration (ε): {params.epsilon.toFixed(2)}</label>
+            <p className="param-desc">Probability of picking a completely random traffic light to discover new strategies.</p>
             <input 
               type="range" min="0.1" max="1.0" step="0.1" 
               value={params.epsilon} 

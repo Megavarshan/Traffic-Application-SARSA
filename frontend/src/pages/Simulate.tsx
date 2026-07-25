@@ -167,6 +167,9 @@ export default function Simulate() {
         {/* RIGHT: Explainability */}
         <div className="glass-panel brain-panel">
           <h2>Agent Thought Process</h2>
+          <p className="param-desc" style={{ marginBottom: '1rem' }}>
+            The RL Agent calculates a "Q-Value" (Quality Score) for each possible action based on past experiences. It chooses the traffic light configuration with the highest Q-Value to minimize traffic globally.
+          </p>
           
           <div className="q-value-bar-container">
             <div className="q-label"><span>Q(NS Green)</span> <span>{q_ns.toFixed(2)}</span></div>
