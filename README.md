@@ -1,6 +1,11 @@
 # Traffic-Application-SARSA
 
-A simple Reinforcement Learning agent demonstrating Traffic Signal Control using the **SARSA** algorithm, built with Streamlit.
+A Professional Reinforcement Learning dashboard demonstrating Traffic Signal Control using the **SARSA** algorithm, built with Streamlit.
+
+## Features
+- **📚 RL Theory**: Clear mathematical breakdown of the MDP and SARSA algorithm.
+- **🧠 Training Dashboard**: High-speed RL training loop with live matplotlib curves tracking Cumulative Reward and Traffic Throughput.
+- **🚗 Live Visual Simulation**: Watch the trained agent control a simulated intersection in real-time, completely rendered in Streamlit using HTML and Emojis!
 
 ## Running Locally
 
@@ -17,9 +22,9 @@ A simple Reinforcement Learning agent demonstrating Traffic Signal Control using
 
 ### State Space
 The intersection has two directions: North-South (NS) and East-West (EW). We track the number of cars waiting in each direction. To keep the state space tabular and manageable, we discretize the queue length into 3 bins: 
-- `0` (Low: 0-2 cars)
-- `1` (Medium: 3-5 cars)
-- `2` (High: 6+ cars)
+- `0` (Low: 0-3 cars)
+- `1` (Medium: 4-7 cars)
+- `2` (High: 8+ cars)
 
 Thus, a state is a tuple `(queue_NS, queue_EW)`. There are $3 \times 3 = 9$ possible states.
 
