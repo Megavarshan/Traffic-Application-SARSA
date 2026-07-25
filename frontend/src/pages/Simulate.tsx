@@ -14,7 +14,6 @@ export default function Simulate() {
 
   const [logs, setLogs] = useState<string[]>([]);
   const logEndRef = useRef<HTMLDivElement>(null);
-  const simInterval = useRef<number | null>(null);
 
   const addLog = (msg: string) => {
     setLogs(prev => [...prev, msg].slice(-15)); 
@@ -40,41 +39,55 @@ export default function Simulate() {
 
   const stopSimulation = () => {
     setIsSimulating(false);
-    if (simInterval.current !== null) {
-      clearInterval(simInterval.current);
-      simInterval.current = null;
-    }
+    isSimulatingRef.current = false;
     addLog("[SIMULATION] Halted by user.");
   };
 
-  // Robust interval using ref
-  useEffect(() => {
-    if (isSimulating) {
-      simInterval.current = window.setInterval(async () => {
-        try {
-          const res = await fetch(`${API_BASE}/simulate/step`, { method: 'POST' });
-          if (!res.ok) throw new Error("Network Error");
-          const data = await res.json();
-          
-          setState({
-            queue_ns: data.queue_ns,
-            queue_ew: data.queue_ew,
-            action: data.action,
-            throughput: data.throughput,
-            q_values: data.q_values || [0, 0]
-          });
+  const isSimulatingRef = useRef(false);
 
-          const actionStr = data.action === 0 ? "NS GREEN" : "EW GREEN";
-          addLog(`[STATE] NS: ${data.queue_ns} | EW: ${data.queue_ew} -> Max Q chosen: ${actionStr}`);
-        } catch (e) {
-          stopSimulation();
-        }
-      }, 800);
+  useEffect(() => {
+    isSimulatingRef.current = isSimulating;
+  }, [isSimulating]);
+
+  useEffect(() => {
+    let timeoutId: number;
+
+    const runStep = async () => {
+      if (!isSimulatingRef.current) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/simulate/step`, { method: 'POST' });
+        if (!res.ok) throw new Error("Network Error");
+        const data = await res.json();
+        
+        setState({
+          queue_ns: data.queue_ns,
+          queue_ew: data.queue_ew,
+          action: data.action,
+          throughput: data.throughput,
+          q_values: data.q_values || [0, 0]
+        });
+
+        const actionStr = data.action === 0 ? "NS GREEN" : "EW GREEN";
+        addLog(`[STATE] NS: ${data.queue_ns} | EW: ${data.queue_ew} -> Max Q chosen: ${actionStr}`);
+      } catch (e) {
+        setIsSimulating(false);
+        isSimulatingRef.current = false;
+      }
+
+      // Recursive call only if we are still supposed to be simulating
+      if (isSimulatingRef.current) {
+        timeoutId = window.setTimeout(runStep, 800);
+      }
+    };
+
+    if (isSimulating) {
+      runStep();
     }
     
     return () => {
-      if (simInterval.current !== null) {
-        clearInterval(simInterval.current);
+      if (timeoutId) {
+        clearTimeout(timeoutId);
       }
     };
   }, [isSimulating]);

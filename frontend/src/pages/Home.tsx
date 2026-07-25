@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 export default function Home() {
   const navigate = useNavigate();
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const [isFiring, setIsFiring] = useState(false);
 
-  // Track mouse position over the robot to move the glow
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -14,24 +14,33 @@ export default function Home() {
     setMousePos({ x, y });
   };
 
+  const handleAction = (path: string) => {
+    setIsFiring(true);
+    setTimeout(() => {
+      setIsFiring(false);
+      navigate(path);
+    }, 800); // 800ms laser animation delay
+  };
+
   return (
     <div className="page-container">
       <div className="landing-layout">
-        {/* LEFT: Big Robot with Iron Man Effect */}
+        
+        {/* LEFT: Cutout Robot with Laser Effects */}
         <div 
-          className="hero-robot-container" 
+          className="hero-robot-container cutout" 
           onMouseMove={handleMouseMove}
           onMouseLeave={() => setMousePos({ x: 50, y: 50 })}
         >
-          <img src="/hero.png" alt="Futuristic Robot" className="hero-img" />
-          {/* Dynamic Iron Man Arc Reactor Glow */}
-          <div 
-            className="iron-man-glow"
-            style={{
-              left: `${mousePos.x}%`,
-              top: `${mousePos.y}%`,
-            }}
-          ></div>
+          <img src="/hero_new.png" alt="Futuristic Robot" className="hero-img cutout-img" />
+          
+          {/* Iron Man Glow Follows Mouse */}
+          <div className="iron-man-glow" style={{ left: `${mousePos.x}%`, top: `${mousePos.y}%` }}></div>
+          
+          {/* Laser that fires on button click */}
+          {isFiring && (
+            <div className="laser-beam right-laser"></div>
+          )}
         </div>
 
         {/* RIGHT: Text & Profile */}
@@ -50,17 +59,16 @@ export default function Home() {
           </div>
 
           <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
-            <button className="cyber-btn btn-primary" onClick={() => navigate('/train')}>
+            <button className="cyber-btn btn-primary" onClick={() => handleAction('/train')} disabled={isFiring}>
               Initialize Training
             </button>
-            <button className="cyber-btn" onClick={() => navigate('/simulate')}>
+            <button className="cyber-btn" onClick={() => handleAction('/simulate')} disabled={isFiring}>
               Live Simulation
             </button>
           </div>
 
           <hr className="divider" />
 
-          {/* New Developer Profile Strip */}
           <div className="dev-strip">
             <div className="dev-avatar">MA</div>
             <div className="dev-info">
