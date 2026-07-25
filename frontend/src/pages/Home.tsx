@@ -40,17 +40,12 @@ export default function Home() {
           {/* Iron Man Glow Follows Mouse */}
           <div className="iron-man-glow" style={{ left: `${mousePos.x}%`, top: `${mousePos.y}%` }}></div>
           
-          {/* Multi-Laser Burst */}
+          {/* 360-Degree Omni-Directional Laser Burst */}
           {isFiring && (
             <div className="laser-burst">
-              <div className="laser-beam angle-1"></div>
-              <div className="laser-beam angle-2"></div>
-              <div className="laser-beam angle-3"></div>
-              <div className="laser-beam angle-4"></div>
-              <div className="laser-beam angle-5"></div>
-              <div className="laser-beam angle-6"></div>
-              <div className="laser-beam angle-7"></div>
-              <div className="laser-beam angle-8"></div>
+              {[...Array(16)].map((_, i) => (
+                <div key={i} className={`laser-beam angle-${i+1}`}></div>
+              ))}
             </div>
           )}
         </div>
@@ -92,6 +87,16 @@ export default function Home() {
             <a href="https://megavarshan.vercel.app" target="_blank" rel="noopener noreferrer" className="cyber-btn small">
               Portfolio
             </a>
+          </div>
+
+          <div className="dev-strip" style={{ marginTop: '2rem', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <h3 style={{ color: '#00f0ff', marginBottom: '0.5rem', marginTop: 0 }}>Minute Concepts Explained:</h3>
+            <ul style={{ color: '#aaa', fontSize: '0.9rem', paddingLeft: '1.2rem', margin: 0, lineHeight: 1.5 }}>
+              <li><strong style={{ color: '#fff' }}>SARSA:</strong> An on-policy Reinforcement Learning algorithm. The agent learns the value of its actions by exploring the environment and updating its strategy based on the rewards it gets.</li>
+              <li><strong style={{ color: '#fff' }}>Q-Value:</strong> A "Quality" score assigned to a specific traffic light configuration. The agent calculates this based on how much it thinks that action will reduce traffic in the long run.</li>
+              <li><strong style={{ color: '#fff' }}>Throughput:</strong> The total number of cars that successfully pass through the intersection. High throughput = good traffic management.</li>
+              <li><strong style={{ color: '#fff' }}>Epsilon (ε):</strong> The probability that the agent will try a random, experimental action instead of sticking to what it already knows works best.</li>
+            </ul>
           </div>
 
         </div>

@@ -171,13 +171,21 @@ body {
 }
 
 .angle-1 { transform: rotate(0deg); width: 8px; }
-.angle-2 { transform: rotate(-30deg); width: 12px; }
-.angle-3 { transform: rotate(-60deg); width: 15px; }
-.angle-4 { transform: rotate(-90deg); width: 35px; } /* Main massive beam */
-.angle-5 { transform: rotate(-120deg); width: 15px; }
-.angle-6 { transform: rotate(-150deg); width: 12px; }
-.angle-7 { transform: rotate(-180deg); width: 8px; }
-.angle-8 { transform: rotate(-75deg); width: 25px; } /* Secondary large beam */
+.angle-2 { transform: rotate(22.5deg); width: 12px; }
+.angle-3 { transform: rotate(45deg); width: 25px; }
+.angle-4 { transform: rotate(67.5deg); width: 15px; }
+.angle-5 { transform: rotate(90deg); width: 10px; }
+.angle-6 { transform: rotate(112.5deg); width: 15px; }
+.angle-7 { transform: rotate(135deg); width: 8px; }
+.angle-8 { transform: rotate(157.5deg); width: 12px; }
+.angle-9 { transform: rotate(180deg); width: 8px; }
+.angle-10 { transform: rotate(202.5deg); width: 15px; }
+.angle-11 { transform: rotate(225deg); width: 25px; }
+.angle-12 { transform: rotate(247.5deg); width: 10px; }
+.angle-13 { transform: rotate(270deg); width: 15px; }
+.angle-14 { transform: rotate(292.5deg); width: 30px; }
+.angle-15 { transform: rotate(315deg); width: 12px; }
+.angle-16 { transform: rotate(337.5deg); width: 8px; }
 
 @keyframes fireLaser {
   0% { height: 0; opacity: 1; }
