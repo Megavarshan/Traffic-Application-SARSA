@@ -6,7 +6,6 @@ import random
 
 app = FastAPI(title="SARSA Traffic API")
 
-# Allow React frontend to connect
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -75,43 +74,53 @@ class SARSAAgent:
     def decay_epsilon(self):
         self.epsilon = max(self.epsilon_min, self.epsilon * self.epsilon_decay)
 
-# Global instances
 env = TrafficEnvironment()
 agent = SARSAAgent()
 
-class TrainRequest(BaseModel):
+class TrainConfig(BaseModel):
     episodes: int = 500
+    alpha: float = 0.1
+    gamma: float = 0.9
+    epsilon: float = 1.0
 
 @app.post("/api/train")
-def train_agent(req: TrainRequest):
-    agent.train_mode = True
-    agent.epsilon = 1.0 # Reset exploration for new training
+def train_model(config: TrainConfig):
+    global agent, env
+    # Reinitialize agent with new hyperparameters
+    agent = SARSAAgent(
+        alpha=config.alpha,
+        gamma=config.gamma,
+        epsilon=config.epsilon
+    )
     
-    rewards = []
+    rewards_history = []
     throughputs = []
     
-    for episode in range(req.episodes):
+    for _ in range(config.episodes):
         state = env.reset()
         action = agent.choose_action(state)
         
-        total_reward = 0
-        total_throughput = 0
-        
+        episode_reward = 0
+        episode_throughput = 0
         for _ in range(50):
             next_state, reward, throughput = env.step(action)
             next_action = agent.choose_action(next_state)
             
             agent.learn(state, action, reward, next_state, next_action)
             
-            state, action = next_state, next_action
-            total_reward += reward
-            total_throughput += throughput
+            state = next_state
+            action = next_action
+            episode_reward += reward
+            episode_throughput += throughput
             
         agent.decay_epsilon()
-        rewards.append(total_reward)
-        throughputs.append(total_throughput)
+        rewards_history.append(episode_reward)
+        throughputs.append(episode_throughput)
         
-    return {"message": "Training complete", "rewards": rewards, "throughputs": throughputs}
+    return {
+        "rewards": rewards_history,
+        "throughputs": throughputs
+    }
 
 @app.post("/api/simulate/reset")
 def reset_simulation():
@@ -125,13 +134,13 @@ def reset_simulation():
 @app.post("/api/simulate/step")
 def step_simulation():
     state = env._get_state()
-    action = agent.choose_action(state) # 0 = NS Green, 1 = EW Green
-    q_values = agent.q_table[state[0], state[1]].tolist() # Extract Q-values for current state
+    action = agent.choose_action(state) 
+    q_values = agent.q_table[state[0], state[1]].tolist() 
     
     next_state, reward, throughput = env.step(action)
     
     return {
-        "action": action, # Light chosen (0=NS, 1=EW)
+        "action": action, 
         "queue_ns": env.queue_ns,
         "queue_ew": env.queue_ew,
         "reward": reward,
