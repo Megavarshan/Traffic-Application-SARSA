@@ -107,17 +107,30 @@ export default function Simulate() {
         {/* CENTER: Live Simulation */}
         <div className="glass-panel simulation-panel">
           <h2>Live Intersection</h2>
-          <div style={{ position: 'absolute', top: '2rem', right: '2rem' }}>
+          
+          {/* Controls tightly integrated into the flow */}
+          <div style={{ margin: '1rem 0', display: 'flex', gap: '1rem', width: '100%', justifyContent: 'center' }}>
             {!isSimulating ? (
-               <button className="cyber-btn" onClick={startSimulation}>START</button>
+               <button className="cyber-btn" onClick={startSimulation} style={{ width: '200px' }}>START SIMULATION</button>
             ) : (
-               <button className="cyber-btn" onClick={stopSimulation} style={{ borderColor: '#ff0055', color: '#ff0055' }}>HALT</button>
+               <button className="cyber-btn" onClick={stopSimulation} style={{ width: '200px', borderColor: '#ff0055', color: '#ff0055' }}>HALT SYSTEM</button>
             )}
           </div>
 
-          <div className="intersection-svg-container">
-             {/* Better SVG-based visualizer */}
-             <svg width="400" height="400" className="intersection-svg">
+          <div className="metrics-grid" style={{ marginTop: '0', marginBottom: '2rem' }}>
+            <div className="metric-card">
+              <div className="metric-val" style={{ color: '#00f0ff' }}>{state.queue_ns + state.queue_ew}</div>
+              <div className="metric-label">Total Queued</div>
+            </div>
+            <div className="metric-card">
+              <div className="metric-val" style={{ color: '#00ffaa' }}>{state.throughput}</div>
+              <div className="metric-label">Cleared Cars</div>
+            </div>
+          </div>
+
+          <div className="intersection-svg-container" style={{ marginTop: 0 }}>
+             {/* Better SVG-based visualizer, scaled via viewBox */}
+             <svg viewBox="0 0 400 400" width="300" height="300" className="intersection-svg">
                <rect width="100%" height="100%" fill="#0a0a0a" rx="12" />
                {/* Roads */}
                <rect x="140" y="0" width="120" height="400" fill="#151515" />
@@ -148,17 +161,6 @@ export default function Simulate() {
                   <rect key={`ew-${i}`} x={15 - i * 25} y="160" width="40" height="20" fill="#ffaa00" rx="4" />
                ))}
              </svg>
-          </div>
-
-          <div className="metrics-grid">
-            <div className="metric-card">
-              <div className="metric-val" style={{ color: '#00f0ff' }}>{state.queue_ns + state.queue_ew}</div>
-              <div className="metric-label">Total Queued</div>
-            </div>
-            <div className="metric-card">
-              <div className="metric-val" style={{ color: '#00ffaa' }}>{state.throughput}</div>
-              <div className="metric-label">Cleared Cars</div>
-            </div>
           </div>
         </div>
 

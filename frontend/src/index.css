@@ -154,8 +154,8 @@ body {
 }
 .right-laser {
   top: 45%;
-  left: 80%;
-  transform: rotate(-60deg);
+  left: 25%;
+  transform: rotate(60deg);
 }
 
 @keyframes fireLaser {
