@@ -126,6 +126,7 @@ def reset_simulation():
 def step_simulation():
     state = env._get_state()
     action = agent.choose_action(state) # 0 = NS Green, 1 = EW Green
+    q_values = agent.q_table[state[0], state[1]].tolist() # Extract Q-values for current state
     
     next_state, reward, throughput = env.step(action)
     
@@ -134,5 +135,6 @@ def step_simulation():
         "queue_ns": env.queue_ns,
         "queue_ew": env.queue_ew,
         "reward": reward,
-        "throughput": throughput
+        "throughput": throughput,
+        "q_values": q_values
     }
